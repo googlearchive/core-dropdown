@@ -1,0 +1,121 @@
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+
+`core-popup` is a popup that can be positioned relative to another element, usually the element
+that opens or closes the popup. It can be used to implement various kinds of popup menus.
+
+Example:
+
+    <template is="auto-binding">
+        <div id="control">Your favorite pastry:</div>
+        <core-popup relatedTarget="{{$.control}}">
+          <core-menu>
+            <core-item label="Churro"></core-item>
+            <core-item label="Donut"></core-item>
+            <core-item label="Macaron"></core-item>
+          </core-menu>
+        </core-popup>
+    </template>
+
+@group Polymer Core Elements
+@element core-popup
+@homepage github.io
+-->
+
+<!--
+Fired when an item's selection state is changed. This event is fired both
+when an item is selected or deselected. The `isSelected` detail property
+contains the selection state.
+
+@event core-select
+@param {Object} detail
+  @param {boolean} detail.isSelected true for selection and false for de-selection
+  @param {Object} detail.item the item element
+-->
+<link href="../polymer/polymer.html" rel="import">
+
+<link href="core-popup-overlay.html" rel="import">
+
+<polymer-element name="core-popup">
+<template>
+
+  <link href="core-popup.css" rel="stylesheet">
+
+  <core-popup-overlay id="overlay" target="{{}}" sizingTarget="{{$.menu}}" relatedTarget="{{relatedTarget}}" opened="{{opened}}" halign="{{halign}}" valign="{{valign}}" transition="{{transition}}"></core-popup-overlay>
+
+  <content></content>
+
+</template>
+<script>
+
+  Polymer({
+
+    publish: {
+
+      /**
+       * The element associated with this menu, usually the element that
+       * causes the menu the open.
+       *
+       * @attribute relatedTarget
+       * @type Node
+       */
+      relatedTarget: null,
+
+      /**
+       * If true, the menu is currently visible.
+       *
+       * @attribute opened
+       * @type boolean
+       * @default false
+       */
+      opened: false,
+
+      /**
+       * The horizontal alignment of the pulldown menu relative to the button.
+       * If set to `auto`, the popup will be positioned the same as `left` if its
+       * natural width can fit in the viewport, otherwise it will be positioned as
+       * `right`.
+       *
+       * @attribute halign
+       * @type 'left' | 'right'
+       * @default 'auto'
+       */
+      halign: 'left',
+
+      /**
+       * The vertical alignment of the pulldown menu relative to the button. If set
+       * to `auto`, the popup will be positioned the same as `bottom` if its natural
+       * height can fit in the viewport, otherwise it will be positioned as `top`.
+       *
+       * @attribute valign
+       * @type 'bottom' | 'top'
+       * @default 'bottom'
+       */
+      valign: 'bottom',
+
+      /**
+       * The transition property specifies a string which identifies a 
+       * <a href="../core-transition/">`core-transition`</a> element that 
+       * will be used to help the overlay open and close. The default
+       * `core-transition-fade` will cause the overlay to fade in and out.
+       *
+       * @attribute transition
+       * @type string
+       * @default null
+       */
+      transition: null
+
+    }
+
+  });
+
+</script>
+</polymer-element>

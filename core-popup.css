@@ -12,7 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   border-radius: 3px;
   color: #000;
   max-height: inherit;
-  overflow: scroll;
+  overflow: auto;
   /* initially position offscreen to get the natural offsetWidth and offsetHeight */
   left: -99999px;
   top: -99999px;

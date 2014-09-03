@@ -9,86 +9,75 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <!--
 
-`core-popup` is an element that is positioned relatively to another element, usually the
-element that triggers the popup. The popup and the triggering element should be children
-of the same element that has a CSS `position`.
+`core-dropdown` is an element that is initially hidden and is positioned relatively to another
+element, usually the element that triggers the dropdown. The dropdown and the triggering element
+should be children of the same offsetParent, e.g. the same `<div>` with `position: relative`.
+It can be used to implement dropdown menus, menu buttons, etc..
 
 Example:
 
     <template is="auto-binding">
       <div relative>
-        <div id="trigger">Your favorite pastry:</div>
-        <core-popup relatedTarget="{{$.trigger}}">
+        <core-icon-button id="trigger" icon="menu"></core-icon-button>
+        <core-dropdown relatedTarget="{{$.trigger}}">
           <core-menu>
-          <core-item label="Churro"></core-item>
-          <core-item label="Donut"></core-item>
-          <core-item label="Macaron"></core-item>
+            <core-item>Cut</core-item>
+            <core-item>Copy</core-item>
+            <core-item>Paste</core-item>
           </core-menu>
-        </core-popup>
+        </core-dropdown>
       </div>
     </template>
 
 Positioning
 -----------
 
-By default, the popup is positioned on top of the `relatedTarget` with the top and left edges aligned.
-The `halign` and `valign` properties controls the various alignments. The size of the popup is
-automatically restrained such that it is entirely visible on the screen.
+By default, the dropdown is absolutely positioned on top of the `relatedTarget` with the top and
+left edges aligned. The `halign` and `valign` properties controls the various alignments. The size
+of the dropdown is automatically restrained such that it is entirely visible on the screen. Use the
+`margin`
 
-If you need more control over the popup's position, use CSS. The `halign` and `valign` properties are
-ignored if either `top` or `left` are set on the popup.
-
-The popup is positioned with `position: absolute` by default. 
+If you need more control over the dropdown's position, use CSS. The `halign` and `valign` properties are
+ignored if the dropdown is positioned with CSS.
 
 Example:
 
     <style>
-      /* manually position the popup with position: absolute in a container with position: relative so it scrolls with #control */
-      core-popup {
+      /* manually position the dropdown below the trigger */
+      core-dropdown {
         position: absolute;
-        top: 0;
+        top: 38px;
         left: 0;
       }
     </style>
 
     <template is="auto-binding">
       <div relative>
-        <div id="control">Your favorite pastry:</div>
-        <core-popup relatedTarget="{{$.control}}">
+        <core-icon-button id="trigger" icon="menu"></core-icon-button>
+        <core-dropdown relatedTarget="{{$.trigger}}">
           <core-menu>
-            <core-item label="Churro"></core-item>
-            <core-item label="Donut"></core-item>
-            <core-item label="Macaron"></core-item>
+            <core-item>Cut</core-item>
+            <core-item>Copy</core-item>
+            <core-item>Paste</core-item>
           </core-menu>
-        </core-popup>
+        </core-dropdown>
       </div>
     </template>
 
 @group Polymer Core Elements
-@element core-popup
+@element core-dropdown
 @homepage github.io
--->
-
-<!--
-Fired when an item's selection state is changed. This event is fired both
-when an item is selected or deselected. The `isSelected` detail property
-contains the selection state.
-
-@event core-select
-@param {Object} detail
-  @param {boolean} detail.isSelected true for selection and false for de-selection
-  @param {Object} detail.item the item element
 -->
 <link href="../polymer/polymer.html" rel="import">
 
-<link href="core-popup-overlay.html" rel="import">
+<link href="core-dropdown-overlay.html" rel="import">
 
-<polymer-element name="core-popup">
+<polymer-element name="core-dropdown">
 <template>
 
-  <link href="core-popup.css" rel="stylesheet">
+  <link href="core-dropdown.css" rel="stylesheet">
 
-  <core-popup-overlay id="overlay" target="{{}}" sizingTarget="{{$.menu}}" relatedTarget="{{relatedTarget}}" opened="{{opened}}" halign="{{halign}}" valign="{{valign}}" transition="{{transition}}"></core-popup-overlay>
+  <core-dropdown-overlay id="overlay" target="{{}}" relatedTarget="{{relatedTarget}}" opened="{{opened}}" halign="{{halign}}" valign="{{valign}}" margin="{{margin}}" transition="{{transition}}"></core-dropdown-overlay>
 
   <content></content>
 
@@ -100,7 +89,7 @@ contains the selection state.
     publish: {
 
       /**
-       * The element associated with this menu, usually the element that triggers
+       * The element associated with this dropdown, usually the element that triggers
        * the menu.
        *
        * @attribute relatedTarget
@@ -138,6 +127,17 @@ contains the selection state.
        * @default 'top'
        */
       valign: 'top',
+
+      /**
+       * A pixel amount around the dropdown that will be reserved. It's useful for
+       * ensuring that, for example, a shadow displayed outside the dropdown will
+       * always be visible.
+       *
+       * @attribute margin
+       * @type number
+       * @default 0
+       */
+      margin: 0,
 
       /**
        * The transition property specifies a string which identifies a 

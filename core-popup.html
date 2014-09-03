@@ -9,12 +9,50 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <!--
 
-`core-popup` is a popup that can be positioned relative to another element, usually the element
-that opens or closes the popup. It can be used to implement various kinds of popup menus.
+`core-popup` is an element that is positioned relatively to another element, usually the
+element that triggers the popup. The popup and the triggering element should be children
+of the same element that has a CSS `position`.
 
 Example:
 
     <template is="auto-binding">
+      <div relative>
+        <div id="trigger">Your favorite pastry:</div>
+        <core-popup relatedTarget="{{$.trigger}}">
+          <core-menu>
+          <core-item label="Churro"></core-item>
+          <core-item label="Donut"></core-item>
+          <core-item label="Macaron"></core-item>
+          </core-menu>
+        </core-popup>
+      </div>
+    </template>
+
+Positioning
+-----------
+
+By default, the popup is positioned on top of the `relatedTarget` with the top and left edges aligned.
+The `halign` and `valign` properties controls the various alignments. The size of the popup is
+automatically restrained such that it is entirely visible on the screen.
+
+If you need more control over the popup's position, use CSS. The `halign` and `valign` properties are
+ignored if either `top` or `left` are set on the popup.
+
+The popup is positioned with `position: absolute` by default. 
+
+Example:
+
+    <style>
+      /* manually position the popup with position: absolute in a container with position: relative so it scrolls with #control */
+      core-popup {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+
+    <template is="auto-binding">
+      <div relative>
         <div id="control">Your favorite pastry:</div>
         <core-popup relatedTarget="{{$.control}}">
           <core-menu>
@@ -23,6 +61,7 @@ Example:
             <core-item label="Macaron"></core-item>
           </core-menu>
         </core-popup>
+      </div>
     </template>
 
 @group Polymer Core Elements
@@ -61,8 +100,8 @@ contains the selection state.
     publish: {
 
       /**
-       * The element associated with this menu, usually the element that
-       * causes the menu the open.
+       * The element associated with this menu, usually the element that triggers
+       * the menu.
        *
        * @attribute relatedTarget
        * @type Node
@@ -79,27 +118,26 @@ contains the selection state.
       opened: false,
 
       /**
-       * The horizontal alignment of the pulldown menu relative to the button.
-       * If set to `auto`, the popup will be positioned the same as `left` if its
-       * natural width can fit in the viewport, otherwise it will be positioned as
-       * `right`.
+       * The horizontal alignment of the popup relative to `relatedTarget`. `left`
+       * means the left edges are aligned together. `right` means the right edges
+       * are aligned together.
        *
        * @attribute halign
        * @type 'left' | 'right'
-       * @default 'auto'
+       * @default 'left'
        */
       halign: 'left',
 
       /**
-       * The vertical alignment of the pulldown menu relative to the button. If set
-       * to `auto`, the popup will be positioned the same as `bottom` if its natural
-       * height can fit in the viewport, otherwise it will be positioned as `top`.
+       * The vertical alignment of the popup relative to `relatedTarget`. `top` means
+       * the top edges are aligned together. `bottom` means the bottom edges are
+       * aligned together.
        *
        * @attribute valign
-       * @type 'bottom' | 'top'
-       * @default 'bottom'
+       * @type 'top' | 'bottom'
+       * @default 'top'
        */
-      valign: 'bottom',
+      valign: 'top',
 
       /**
        * The transition property specifies a string which identifies a 

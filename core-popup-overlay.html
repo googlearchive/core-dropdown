@@ -28,31 +28,34 @@ element.
       publish: {
 
         /**
-         * The `relatedTarget` is an element used to position the overlay, for example a
-         * button the user taps to show a menu.
+         * The `relatedTarget` is an element used to position the overlay.
          *
          * @attribute relatedTarget
-         * @type Element
+         * @type Node
          */
         relatedTarget: null,
 
         /**
          * The horizontal alignment of the overlay relative to the `relatedTarget`.
+         * `left` means the left edges are aligned together and `right` means the right
+         * edges are aligned together.
          *
          * @attribute halign
-         * @type 'left'|'right'
+         * @type 'left' | 'right'
          * @default 'auto'
          */
         halign: 'left',
 
         /**
-         * The vertical alignment of the overlay relative to the `relatedTarget`.
+         * The vertical alignment of the overlay relative to the `relatedTarget`. `top`
+         * means the top edges are aligned together and `bottom` means the bottom edges
+         * are aligned together.
          *
          * @attribute valign
-         * @type 'top'|'bottom'
-         * @default 'bottom'
+         * @type 'top' | 'bottom'
+         * @default 'top'
          */
-        valign: 'bottom',
+        valign: 'top',
 
         margin: 12
 
@@ -67,23 +70,30 @@ element.
         var top, left, bottom, right;
         var ref = this.relatedTarget.getBoundingClientRect();
 
-        // if (this._shouldPosition.left) {
+        if (this._shouldPosition.left) {
+          this.target.style.left = '-99999px';
+        }
+        if (this._shouldPosition.top) {
+          this.target.style.top = '-99999px';
+        }
+
+        if (this._shouldPosition.left) {
           if (this.halign === 'left') {
             left = ref.left;
           } else if (this.halign === 'right') {
             left = Math.max(ref.right - this.target.offsetWidth, this.margin);
           }
           this.target.style.left = left + 'px';
-        // }
+        }
 
-        // if (this._shouldPosition.top) {
-          if (this.valign === 'bottom') {
+        if (this._shouldPosition.top) {
+          if (this.valign === 'top') {
             top = ref.top;
           } else {
             top = Math.max(ref.bottom - this.target.offsetHeight, this.margin)
           }
           this.target.style.top = top + 'px';
-        // }
+        }
 
       },
 
@@ -99,27 +109,19 @@ element.
 
         var maxW, maxH;
 
-        // if (this._shouldPosition.left) {
-          if (this.halign === 'left') {
-            maxW = window.innerWidth - rect.left - this.margin;
-          } else {
-            maxW = ref.right - rect.left;
-          }
+        if (this._shouldPosition.left) {
+          maxW = window.innerWidth - rect.left - this.margin;
           sizer.style.maxWidth = maxW + 'px';
-        // }
+        }
 
-        // if (this._shouldPosition.top) {
-          if (this.valign === 'bottom') {
-            maxH = window.innerHeight - rect.top - this.margin;
-          } else {
-            maxH = ref.bottom - rect.top;
-          }
+        if (this._shouldPosition.top) {
+          maxH = window.innerHeight - rect.top - this.margin;
           sizer.style.maxHeight = maxH + 'px';
-        // }
+        }
 
-        // if (!this._shouldPosition.left && !this._shouldPosition.top) {
-        //   this.super();
-        // }
+        if (!this._shouldPosition.left && !this._shouldPosition.top) {
+          this.super();
+        }
       }
 
     });

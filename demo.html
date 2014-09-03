@@ -59,18 +59,26 @@ TODO:
     }
 
     .toolbar-1 {
-      background-color: #4285f4;
+      background-color: #3b78e7;
     }
 
     .toolbar-2 {
-      background-color: #5e97f6;
+      background-color: #4285f4;
     }
 
     .toolbar-3 {
+      background-color: #5e97f6;
+    }
+
+    .bottom-toolbar-1 {
+      background-color: #0d904f;
+    }
+
+    .bottom-toolbar-2 {
       background-color: #0f9d58;
     }
 
-    .toolbar-4 {
+    .bottom-toolbar-3 {
       background-color: #33ac71;
     }
 
@@ -101,6 +109,7 @@ TODO:
     <style>
       :host {
         display: inline-block;
+        position: relative;
       }
     </style>
 
@@ -166,7 +175,7 @@ TODO:
     <div class="toolbar toolbar-1" layout horizontal center>
 
       <div class="toolbar-label">
-        halign=left
+        halign=left valign=top
       </div>
 
       <pop-up halign="left">
@@ -194,7 +203,7 @@ TODO:
     <div class="toolbar toolbar-2" layout horizontal center>
 
       <div class="toolbar-label">
-        halign=right
+        halign=right valign=top
       </div>
 
       <div flex></div>
@@ -230,20 +239,20 @@ TODO:
       <div style="height:2000px;">I am scrollable...</div>
     </div>
 
-    <div class="toolbar toolbar-4" layout horizontal center>
+    <div class="toolbar bottom-toolbar-2" layout horizontal center>
 
       <div class="toolbar-label">
-        halign=left
+        halign=left valign=bottom
       </div>
 
-      <pop-up halign="left" valign="top">
+      <pop-up halign="left" valign="bottom">
         <core-icon-button class="control" icon="menu"></core-icon-button>
         <div class="popup" layout horizontal center-center>
           <h2>Hello World!</h2>
         </div>
       </pop-up>
 
-      <pop-up halign="left" valign="top">
+      <pop-up halign="left" valign="bottom">
         <core-icon-button class="control" icon="menu"></core-icon-button>
         <div class="popup">
           <h2>scrollable-vertical</h2>
@@ -258,15 +267,15 @@ TODO:
 
     </div>
 
-    <div class="toolbar toolbar-3" layout horizontal center>
+    <div class="toolbar bottom-toolbar-1" layout horizontal center>
 
       <div class="toolbar-label">
-        halign=right
+        halign=right valign=bottom
       </div>
 
       <div flex></div>
 
-      <pop-up halign="right" valign="top">
+      <pop-up halign="right" valign="bottom">
         <core-icon-button class="control" icon="menu"></core-icon-button>
         <div class="popup">
           <h2>scrollable-vertical</h2>
@@ -276,7 +285,7 @@ TODO:
         </div>
       </pop-up>
 
-      <pop-up halign="right" valign="top">
+      <pop-up halign="right" valign="bottom">
         <core-icon-button class="control" icon="more-vert"></core-icon-button>
         <div class="popup" layout horizontal center-center>
           <h2>Hello World!</h2>

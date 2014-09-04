@@ -120,7 +120,7 @@ element within the same offsetParent.
 
         if (this._shouldPosition.left) {
           var left;
-          var ml = -1 * ref.left + this.margin;
+          var ml = -1 * ref.left + (inside ? 0 : this.relatedTarget.offsetLeft) + this.margin;
           if (this.halign === 'right') {
             left = Math.max((inside ? 0 : this.relatedTarget.offsetLeft) + this.relatedTarget.offsetWidth - this._naturalSize.width, ml);
           } else {
@@ -131,7 +131,7 @@ element within the same offsetParent.
 
         if (this._shouldPosition.top) {
           var top;
-          var mt = -1 * ref.top + this.margin;
+          var mt = -1 * ref.top + (inside ? 0 : this.relatedTarget.offsetTop) + this.margin;
           if (this.valign === 'bottom') {
             top = Math.max((inside ? 0 : this.relatedTarget.offsetTop) + this.relatedTarget.offsetHeight - this._naturalSize.height, mt);
           } else {

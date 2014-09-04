@@ -102,26 +102,33 @@ element within the same offsetParent.
           return;
         }
 
+        if (this.target.offsetParent !== this.relatedTarget.offsetParent && this.target.offsetParent !== this.relatedTarget) {
+          console.warn('core-dropdown-overlay: dropdown\'s offsetParent must be the relatedTarget or the relatedTarget\'s offsetParent!');
+        }
+
         // Don't use CSS to handle halign/valign here so _shouldPosition still works.
 
+        var inside = this.target.offsetParent === this.relatedTarget;
         var ref = this.relatedTarget.getBoundingClientRect();
 
         if (this._shouldPosition.left) {
           var left;
+          var ml = -1 * ref.left + this.margin;
           if (this.halign === 'right') {
-            left = Math.max(-1 * ref.left + this.relatedTarget.offsetLeft + this.margin, this.relatedTarget.offsetLeft + ref.width - this._naturalSize.width);
+            left = Math.max((inside ? 0 : this.relatedTarget.offsetLeft) + this.relatedTarget.offsetWidth - this._naturalSize.width, ml);
           } else {
-            left = this.relatedTarget.offsetLeft;
+            left = inside ? 0 : this.relatedTarget.offsetLeft;
           }
           this.target.style.left = left + 'px';
         }
 
         if (this._shouldPosition.top) {
           var top;
+          var mt = -1 * ref.top + this.margin;
           if (this.valign === 'bottom') {
-            top = Math.max(-1 * ref.top + this.relatedTarget.offsetTop + this.margin, this.relatedTarget.offsetTop + ref.height - this._naturalSize.height);
+            top = Math.max((inside ? 0 : this.relatedTarget.offsetTop) + this.relatedTarget.offsetHeight - this._naturalSize.height, mt);
           } else {
-            top = this.relatedTarget.offsetTop;
+            top = inside ? 0 : this.relatedTarget.offsetTop;
           }
           this.target.style.top = top + 'px';
         }

@@ -102,13 +102,20 @@ element within the same offsetParent.
           return;
         }
 
-        if (this.target.offsetParent !== this.relatedTarget.offsetParent && this.target.offsetParent !== this.relatedTarget) {
+        var t_op = this.target.offsetParent;
+        var r_op = this.relatedTarget.offsetParent;
+        if (window.ShadowDOMPolyfill) {
+          t_op = wrap(t_op);
+          r_op = wrap(r_op);
+        }
+
+        if (t_op !== r_op && t_op !== this.relatedTarget) {
           console.warn('core-dropdown-overlay: dropdown\'s offsetParent must be the relatedTarget or the relatedTarget\'s offsetParent!');
         }
 
         // Don't use CSS to handle halign/valign here so _shouldPosition still works.
 
-        var inside = this.target.offsetParent === this.relatedTarget;
+        var inside = t_op === this.relatedTarget;
         var ref = this.relatedTarget.getBoundingClientRect();
 
         if (this._shouldPosition.left) {

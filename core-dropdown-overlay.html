@@ -85,9 +85,11 @@ element within the same offsetParent.
         var style = this.target.style;
         if (dims.position.h_by === this.localName) {
           style[dims.position.h] = null;
+          dims.position.h_by = null;
         }
         if (dims.position.v_by === this.localName) {
           style[dims.position.v] = null;
+          dims.position.v_by = null;
         }
         this.super();
       },
@@ -120,7 +122,7 @@ element within the same offsetParent.
 
         if (!dims.position.h) {
           if (this.halign === 'right') {
-            target.style.right = rect.right + 'px';
+            target.style.right = window.innerWidth - rect.right + 'px';
             dims.position.h = 'right';
           } else {
             target.style.left = rect.left + 'px';
@@ -131,13 +133,17 @@ element within the same offsetParent.
 
         if (!dims.position.v) {
           if (this.valign === 'bottom') {
-            target.style.bottom = rect.bottom + 'px';
+            target.style.bottom = window.innerHeight - rect.bottom + 'px';
             dims.position.v = 'bottom';
           } else {
             target.style.top = rect.top + 'px';
             dims.position.v = 'top';
           }
           dims.position.v_by = this.localName;
+        }
+
+        if (dims.position.h_by || dims.position.v_by) {
+          target.style.position = 'fixed';
         }
       },
 

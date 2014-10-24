@@ -189,13 +189,14 @@ not scroll with its container.
       var rect = this.relatedTarget.getBoundingClientRect();
 
       var dims = this.dimensions;
+      var margin = dims.margin;
 
       if (!dims.position.h) {
         if (this.halign === 'right') {
-          target.style.right = window.innerWidth - rect.right + 'px';
+          target.style.right = window.innerWidth - rect.right - margin.right + 'px';
           dims.position.h = 'right';
         } else {
-          target.style.left = rect.left + 'px';
+          target.style.left = rect.left - margin.left + 'px';
           dims.position.h = 'left';
         }
         dims.position.h_by = this.localName;
@@ -203,10 +204,10 @@ not scroll with its container.
 
       if (!dims.position.v) {
         if (this.valign === 'bottom') {
-          target.style.bottom = window.innerHeight - rect.bottom + 'px';
+          target.style.bottom = window.innerHeight - rect.bottom - margin.bottom + 'px';
           dims.position.v = 'bottom';
         } else {
-          target.style.top = rect.top + 'px';
+          target.style.top = rect.top - margin.top + 'px';
           dims.position.v = 'top';
         }
         dims.position.v_by = this.localName;

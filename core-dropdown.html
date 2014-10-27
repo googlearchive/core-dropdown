@@ -77,12 +77,13 @@ not scroll with its container.
 
 @group Polymer Core Elements
 @element core-dropdown
+@extends core-overlay
 @homepage github.io
 -->
 <link href="../polymer/polymer.html" rel="import">
 <link href="../core-overlay/core-overlay.html" rel="import">
 
-<style>
+<style shim-shadowdom>
   html /deep/ core-dropdown {
     position: absolute;
     overflow: auto;
@@ -93,13 +94,42 @@ not scroll with its container.
 <polymer-element name="core-dropdown" extends="core-overlay">
 <script>
 
+(function() {
+
+  function docElem(property) {
+    var t;
+    return ((t = document.documentElement) || (t = document.body.parentNode)) && (typeof t[property] === 'number') ? t : document.body;
+  }
+
+  // View width and height excluding any visible scrollbars
+  // http://www.highdots.com/forums/javascript/faq-topic-how-do-i-296669.html
+  //    1) document.client[Width|Height] always reliable when available, including Safari2
+  //    2) document.documentElement.client[Width|Height] reliable in standards mode DOCTYPE, except for Safari2, Opera<9.5
+  //    3) document.body.client[Width|Height] is gives correct result when #2 does not, except for Safari2
+  //    4) When document.documentElement.client[Width|Height] is unreliable, it will be size of <html> element either greater or less than desired view size
+  //       https://bugzilla.mozilla.org/show_bug.cgi?id=156388#c7
+  //    5) When document.body.client[Width|Height] is unreliable, it will be size of <body> element less than desired view size
+  function viewSize() {
+    // This algorithm avoids creating test page to determine if document.documentElement.client[Width|Height] is greater then view size,
+    // will succeed where such test page wouldn't detect dynamic unreliability,
+    // and will only fail in the case the right or bottom edge is within the width of a scrollbar from edge of the viewport that has visible scrollbar(s).
+    var doc = docElem('clientWidth');
+    var body = document.body;
+    var w, h;
+    return typeof document.clientWidth === 'number' ?
+      {w: document.clientWidth, h: document.clientHeight} :
+      doc === body || (w = Math.max( doc.clientWidth, body.clientWidth )) > self.innerWidth || (h = Math.max( doc.clientHeight, body.clientHeight )) > self.innerHeight ?
+        {w: body.clientWidth, h: body.clientHeight} : {w: w, h: h };
+  }
+
   Polymer({
 
     publish: {
 
       /**
        * The element associated with this dropdown, usually the element that triggers
-       * the menu.
+       * the menu. If unset, this property will default to the target's parent node
+       * or shadow host.
        *
        * @attribute relatedTarget
        * @type Node
@@ -166,16 +196,19 @@ not scroll with its container.
 
     positionTarget: function() {
       if (!this.relatedTarget) {
-        this.super();
-        return;
+        this.relatedTarget = this.target.parentElement || (this.target.parentNode && this.target.parentNode.host);
+        if (!this.relatedTarget) {
+          this.super();
+          return;
+        }
       }
 
       // explicitly set width/height, because we don't want it constrained
       // to the offsetParent
       var target = this.target;
       var rect = this.measure();
-      target.style.width = rect.width + 'px';
-      target.style.height = rect.height + 'px';
+      target.style.width = Math.ceil(rect.width) + 'px';
+      target.style.height = Math.ceil(rect.height) + 'px';
 
       if (this.layered) {
         this.positionLayeredTarget();
@@ -190,10 +223,11 @@ not scroll with its container.
 
       var dims = this.dimensions;
       var margin = dims.margin;
+      var vp = viewSize();
 
       if (!dims.position.h) {
         if (this.halign === 'right') {
-          target.style.right = window.innerWidth - rect.right - margin.right + 'px';
+          target.style.right = vp.w - rect.right - margin.right + 'px';
           dims.position.h = 'right';
         } else {
           target.style.left = rect.left - margin.left + 'px';
@@ -204,7 +238,7 @@ not scroll with its container.
 
       if (!dims.position.v) {
         if (this.valign === 'bottom') {
-          target.style.bottom = window.innerHeight - rect.bottom - margin.bottom + 'px';
+          target.style.bottom = vp.h - rect.bottom - margin.bottom + 'px';
           dims.position.v = 'bottom';
         } else {
           target.style.top = rect.top - margin.top + 'px';
@@ -264,6 +298,8 @@ not scroll with its container.
     }
 
   });
+
+})();
 
 </script>
 </polymer-element>

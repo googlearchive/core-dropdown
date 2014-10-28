@@ -22,13 +22,11 @@ should be a `core-dropdown` or other overlay element.
 -->
 
 <link href="../polymer/polymer.html" rel="import">
-<link href="../core-focusable/core-focusable.html" rel="import">
 
 <polymer-element name="core-dropdown-base" tabindex="0">
 <script>
 
-(function() {
-  var p = {
+  Polymer({
 
     publish: {
 
@@ -113,12 +111,7 @@ should be a `core-dropdown` or other overlay element.
       this.opened = !this.opened;
     }
 
-  };
-
-  Polymer.mixin2(p, Polymer.CoreFocusable);
-  Polymer(p);
-
-})();
+  });
 
 </script>
 </polymer-element>

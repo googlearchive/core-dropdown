@@ -205,7 +205,7 @@ not scroll with its container.
 
       // explicitly set width/height, because we don't want it constrained
       // to the offsetParent
-      var target = this.target;
+      var target = this.sizingTarget;
       var rect = this.measure();
       target.style.width = Math.ceil(rect.width) + 'px';
       target.style.height = Math.ceil(rect.height) + 'px';

@@ -164,18 +164,24 @@ not scroll with its container.
       var target = this.target;
       // remember position, because core-overlay may have set the property
       var pos = target.style.position;
+      var width = target.style.width;
+      var height = target.style.height;
 
       // get the size of the target as if it's positioned in the top left
       // corner of the screen
       target.style.position = 'fixed';
       target.style.left = '0px';
       target.style.top = '0px';
+      target.style.width = null;
+      target.style.height = null;
 
       var rect = target.getBoundingClientRect();
 
       target.style.position = pos;
       target.style.left = null;
       target.style.top = null;
+      target.style.width = width;
+      target.style.height = height;
 
       return rect;
     },

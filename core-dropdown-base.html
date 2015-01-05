@@ -41,6 +41,18 @@ should be a `core-dropdown` or other overlay element.
 
     },
 
+
+    /**
+	 * This specifies the name of the attribute that can be set on
+	 * elements within the dropdown to prevent them from closing the
+	 * dropdown on tap.
+     *
+     * @attribute dropdownKeepAttribute
+     * @type string
+     * @default 'core-dropdown-keep'
+     */
+    dropdownKeepAttribute: 'core-dropdown-keep',
+
     eventDelegates: {
       'tap': 'toggleOverlay'
     },
@@ -107,7 +119,13 @@ should be a `core-dropdown` or other overlay element.
       this.opened = !!e.detail;
     },
 
-    toggleOverlay: function() {
+    toggleOverlay: function(e) {
+      if (this.opened &&
+          this.dropdownKeepAttribute &&
+          e.target && e.target.hasAttribute(this.dropdownKeepAttribute))
+      {
+        return;
+      }
       this.opened = !this.opened;
     }
 

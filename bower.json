@@ -2,11 +2,11 @@
   "name": "core-dropdown",
   "private": false,
   "dependencies": {
-    "polymer": "Polymer/polymer#master",
-    "core-collapse": "Polymer/core-collapse#master",
-    "core-icon-button": "Polymer/core-icon-button#master",
-    "core-icons": "Polymer/core-icons#master",
-    "core-overlay": "Polymer/core-overlay#master"
+    "polymer": "Polymer/polymer#^0.5",
+    "core-collapse": "Polymer/core-collapse#^0.5",
+    "core-icon-button": "Polymer/core-icon-button#^0.5",
+    "core-icons": "Polymer/core-icons#^0.5",
+    "core-overlay": "Polymer/core-overlay#^0.5"
   },
   "devDependencies": {
     "web-component-tester": "*"

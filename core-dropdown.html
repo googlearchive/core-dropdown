@@ -173,13 +173,17 @@ not scroll with its container.
       // corner of the screen
       target.style.position = 'fixed';
       target.style.left = '0px';
+      target.style.right = 'auto';
       target.style.top = '0px';
+      target.style.bottom = 'auto';
 
       var rect = target.getBoundingClientRect();
 
       target.style.position = pos;
       target.style.left = null;
+      target.style.right = null;
       target.style.top = null;
+      target.style.bottom = null;
 
       return rect;
     },

@@ -17,6 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script src="../../web-component-tester/browser.js"></script>
 
   <link href="../core-dropdown.html" rel="import">
+  <link href="../core-dropdown-base.html" rel="import">
 
   <style>
     body {
@@ -71,6 +72,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <core-dropdown id="dropdown8" class="with-width">
     <div class="scrolling">Hello world!</div>
   </core-dropdown>
+
+  <core-dropdown-base id="dropdown9">
+    <div class="dropdown">Hello World</div>
+  </core-dropdown-base>
 
   <script>
 
@@ -132,6 +137,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     var d7 = document.getElementById('dropdown7');
 
     var d8 = document.getElementById('dropdown8');
+
+    var d9 = document.getElementById('dropdown9');
 
     test('default', function(done) {
       d1.opened = true;
@@ -214,6 +221,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           });
         });
       });
+    });
+
+    test('should not toggle opened when dropdown is disabled', function(done) {
+      d9.opened = false;
+      d9.disabled = true;
+
+      // simulate tap
+      d9.fire('tap');
+      assert.isFalse(d9.opened);
+
+      // simulate 'enter' keydown
+      var keyEvent = new KeyboardEvent('keydown', {charCode: 13});
+      d9.dispatchEvent(keyEvent);
+      assert.isFalse(d9.opened);
+
+      done();
     });
 
   </script>

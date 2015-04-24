@@ -106,9 +106,9 @@ not scroll with its container.
   //    1) document.client[Width|Height] always reliable when available, including Safari2
   //    2) document.documentElement.client[Width|Height] reliable in standards mode DOCTYPE, except for Safari2, Opera<9.5
   //    3) document.body.client[Width|Height] is gives correct result when #2 does not, except for Safari2
-  //    4) When document.documentElement.client[Width|Height] is unreliable, it will be size of <html> element either greater or less than desired view size
+  //    4) When document.documentElement.client[Width|Height] is unreliable, it will be size of html element either greater or less than desired view size
   //       https://bugzilla.mozilla.org/show_bug.cgi?id=156388#c7
-  //    5) When document.body.client[Width|Height] is unreliable, it will be size of <body> element less than desired view size
+  //    5) When document.body.client[Width|Height] is unreliable, it will be size of body element less than desired view size
   function viewSize() {
     // This algorithm avoids creating test page to determine if document.documentElement.client[Width|Height] is greater then view size,
     // will succeed where such test page wouldn't detect dynamic unreliability,

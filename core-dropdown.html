@@ -245,7 +245,10 @@ not scroll with its container.
       }
 
       if (!dims.position.v) {
-        if (this.valign === 'bottom') {
+        if(this.valign === 'sub') {
+          target.style.top = rect.top + rect.height - margin.top + 'px';
+          dims.position.v = 'sub';
+		} else if (this.valign === 'bottom') {
           target.style.bottom = vp.h - rect.bottom - margin.bottom + 'px';
           dims.position.v = 'bottom';
         } else {
@@ -294,7 +297,10 @@ not scroll with its container.
       }
 
       if (!dims.position.v) {
-        if (this.valign === 'bottom') {
+        if (this.valign === 'sub') {
+          target.style.top = ((inside ? 0 : related.offsetTop + related.offsetHeight) - margin.top) + 'px';
+          dims.position.v = 'sub';
+	    } else if (this.valign === 'bottom') {
           target.style.bottom = ((inside ? 0 : t_op.offsetHeight - related.offsetTop - related.offsetHeight) - margin.bottom) + 'px';
           dims.position.v = 'bottom';
         } else {
